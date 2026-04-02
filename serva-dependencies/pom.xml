@@ -38,6 +38,8 @@
 
         <java.jwt.version>4.4.0</java.jwt.version>
         <bcprov.jdk18on.version>1.82</bcprov.jdk18on.version>
+
+        <mybatis.plus.version>3.5.16</mybatis.plus.version>
     </properties>
 
     <dependencyManagement>
@@ -95,6 +97,16 @@
                 <version>${jasypt.starter.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>cn.fish.cloud</groupId>
@@ -104,6 +116,11 @@
             <dependency>
                 <groupId>cn.fish.cloud</groupId>
                 <artifactId>serva-starter-web</artifactId>
+                <version>${serva.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.fish.cloud</groupId>
+                <artifactId>serva-starter-mybatis</artifactId>
                 <version>${serva.version}</version>
             </dependency>
 
