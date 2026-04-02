@@ -7,7 +7,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class JWTUtils {
 
     private JWTUtils() {
@@ -100,7 +98,7 @@ public class JWTUtils {
                 userCache.put(token, usercode);
                 return usercode;
             } catch (Exception e) {
-//                log.error("JWT token parse error", e);
+                //                log.error("JWT token parse error", e);
                 return null;
             }
         }
