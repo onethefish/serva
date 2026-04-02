@@ -24,7 +24,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Properties;
 
-@SuppressWarnings({"java:S3329"})
+
 public class CryptoUtil {
 
     private static final String GMNAME = "sm2p256v1";

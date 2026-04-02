@@ -13,10 +13,12 @@
 
     <groupId>cn.fish.cloud</groupId>
     <artifactId>serva-dependencies</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <properties>
+        <revision>1.0.0</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.plugin.version>3.12.0</maven.compiler.plugin.version>
@@ -91,6 +93,18 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt.starter.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>cn.fish.cloud</groupId>
+                <artifactId>serva-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.fish.cloud</groupId>
+                <artifactId>serva-starter-web</artifactId>
+                <version>${revision}</version>
             </dependency>
 
         </dependencies>
