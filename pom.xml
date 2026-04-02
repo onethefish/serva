@@ -11,6 +11,7 @@
 
     <modules>
         <module>serva-dependencies</module>
+        <module>serva-common</module>
     </modules>
 
     <properties>

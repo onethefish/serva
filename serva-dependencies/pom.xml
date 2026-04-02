@@ -30,6 +30,12 @@
         <spring-cloud.version>2025.1.0</spring-cloud.version>
         <!-- Spring Cloud Alibaba -->
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
+
+        <hutool.version>5.8.40</hutool.version>
+        <transmittable.version>2.14.5</transmittable.version>
+
+        <java.jwt.version>4.4.0</java.jwt.version>
+        <bcprov.jdk18on.version>1.82</bcprov.jdk18on.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +62,37 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable.version}</version>
+            </dependency>
+
+            <!-- JWT -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java.jwt.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15to18 -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov.jdk18on.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.starter.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
