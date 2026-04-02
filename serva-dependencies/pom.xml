@@ -13,11 +13,11 @@
 
     <groupId>cn.fish.cloud</groupId>
     <artifactId>serva-dependencies</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
-        <revision>1.0.0</revision>
+        <serva.version>1.0.0</serva.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -99,12 +99,12 @@
             <dependency>
                 <groupId>cn.fish.cloud</groupId>
                 <artifactId>serva-common</artifactId>
-                <version>${revision}</version>
+                <version>${serva.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.fish.cloud</groupId>
                 <artifactId>serva-starter-web</artifactId>
-                <version>${revision}</version>
+                <version>${serva.version}</version>
             </dependency>
 
         </dependencies>
