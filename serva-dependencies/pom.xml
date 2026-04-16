@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -26,12 +26,13 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
         <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
-        <!-- Spring Boot -->
-        <spring-boot.version>4.0.0</spring-boot.version>
-        <!-- Spring Cloud -->
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
-        <!-- Spring Cloud Alibaba -->
-        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
+
+        <spring-boot.version>3.5.7</spring-boot.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
+        <spring-ai-alibaba.version>1.1.2.1</spring-ai-alibaba.version>
+        <spring-ai-alibaba-extensions.version>1.1.2.1</spring-ai-alibaba-extensions.version>
+        <spring-ai.version>1.1.0</spring-ai.version>
 
         <hutool.version>5.8.40</hutool.version>
         <transmittable.version>2.14.5</transmittable.version>
@@ -66,7 +67,20 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-bom</artifactId>
+                <version>${spring-ai-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
