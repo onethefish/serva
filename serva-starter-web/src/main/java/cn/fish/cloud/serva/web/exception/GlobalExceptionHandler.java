@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.websocket.DecodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
-import org.springframework.boot.servlet.autoconfigure.MultipartProperties;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
