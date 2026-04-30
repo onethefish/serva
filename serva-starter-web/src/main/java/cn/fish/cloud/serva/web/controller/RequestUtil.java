@@ -1,6 +1,8 @@
 package cn.fish.cloud.serva.web.controller;
 
 import cn.hutool.core.map.MapUtil;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -82,6 +84,20 @@ public class RequestUtil {
         if (null == obj) {
             return new ArrayList<>();
         }
+        if (obj instanceof JSONArray jsonArray) {
+            return jsonArray.toJavaList(clazz);
+        }
+        if (obj instanceof JSONObject jsonObject) {
+            T javaObject = jsonObject.toJavaObject(clazz);
+            return List.of(javaObject);
+        }
+        if (obj instanceof List<?> list) {
+            JSONArray jsonArray = new JSONArray(list);
+            return jsonArray.toJavaList(clazz);
+        }
+        if (clazz.isInstance(obj)) {
+            return (List<T>) List.of(obj);
+        }
         return null;
     }
 
@@ -99,6 +115,13 @@ public class RequestUtil {
         if (null == obj) {
             return null;
         }
+        if (obj instanceof JSONObject jsonObject) {
+            return jsonObject.toJavaObject(clazz);
+        }
+        if (obj instanceof Map<?, ?> map) {
+            JSONObject jsonObject = new JSONObject(map);
+            return jsonObject.toJavaObject(clazz);
+        }
         return (T) obj;
     }
 
@@ -110,7 +133,17 @@ public class RequestUtil {
      * @return Object
      */
     public static <T> T getObject(Map<String, Object> param, Class<T> clazz) {
-        return null;
+        if (null == param) {
+            return null;
+        }
+        if (param instanceof JSONObject) {
+            JSONObject jsonObject = (JSONObject) param;
+            return jsonObject.toJavaObject(clazz);
+        }
+        else {
+            JSONObject jsonObject = new JSONObject(param);
+            return jsonObject.toJavaObject(clazz);
+        }
     }
 
     /**
@@ -202,8 +235,6 @@ public class RequestUtil {
         }
         return paraMap;
     }
-
-
 
 
     /**
