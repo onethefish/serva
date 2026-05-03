@@ -75,31 +75,30 @@ public class GlobalExceptionHandler {
         HttpServletRequest request = RequestContext.getRequest();
         String traceId = null;
         if (Level.WARN.equals(level)) {
-            log.warn(MessageFormat.format("traceId:{0},url:{1}; common exception:{2}", traceId, request.getRequestURI(), ex.getMessage()));
+            log.warn("traceId:{},url:{}; common exception:{}", traceId, request.getRequestURI(), ex.getMessage());
         }
         if (Level.ERROR.equals(level)) {
-            log.error(MessageFormat.format("traceId:{0},url:{1}; common exception:{2}", traceId, request.getRequestURI(), ex.getMessage()), ex);
+            log.error("traceId:{},url:{}; common exception:{}", traceId, request.getRequestURI(), ex.getMessage(), ex);
         }
-        return ResponseResult.error(ex.getSolutionUrl(), ex.getCode(), ex.getMessage());
+        return ResponseResult.error(ex.getCode() + ":" + ex.getMessage());
     }
 
 
     @ExceptionHandler({IllegalArgumentException.class})
     public Object handleIllegalArgumentException(IllegalArgumentException ex) {
         String traceId = null;
-        log.error(MessageFormat.format("traceId:{0}; IllegalArgumentException", traceId), ex);
+        log.error("traceId:{}; IllegalArgumentException", traceId, ex);
         return ResponseResult.error(ex.getMessage());
     }
 
     @ExceptionHandler({DecodeException.class})
     public Object handleFeignDecodeException(DecodeException ex) {
         String traceId = null;
-        log.error(MessageFormat.format("traceId:{0}; DecodeException", traceId), ex);
+        log.error("traceId:{}; DecodeException", traceId, ex);
         return ResponseResult.error(ex.getMessage());
     }
 
     /**
-     * {@link org.springframework.validation.annotation.Validated} {@link javax.validation.Valid} spring mvc controller中
      * 校验 Bean信息 使用上面两个都可以的，后面跟上一个BindResult，这样非常不方便，统一起来处理
      *
      * @param exception {@link MethodArgumentNotValidException}
@@ -108,7 +107,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     public Object handleMethodArgumentNotValidException(Exception exception) {
         String traceId = null;
-        log.error(MessageFormat.format("traceId:{0}; Param valid error", traceId), exception);
+        log.error("traceId:{}; Param valid error", traceId, exception);
         BindingResult bindResult = null;
         if (exception instanceof BindException bindException) {
             bindResult = bindException.getBindingResult();
@@ -134,8 +133,8 @@ public class GlobalExceptionHandler {
     public Object handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
         String traceId = null;
         String maxMega = multipartProperties.getMaxFileSize().toMegabytes() + "MB";
-        log.error(MessageFormat.format("traceId:{0}; Upload or import file exceeds the maximum size", traceId), ex);
-        return ResponseResult.error("", "msdp.error.0017", maxMega);
+        log.error("traceId:{}; Upload or import file exceeds the maximum size", traceId, ex);
+        return ResponseResult.error("文件上传超过大小:" + maxMega);
     }
 
 
