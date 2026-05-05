@@ -6,7 +6,6 @@ import cn.hutool.core.lang.id.NanoId;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,6 @@ import java.io.*;
 
 @Slf4j
 @Component("msdpDefaultFile")
-@EnableConfigurationProperties(ServaFileConfig.class)
 @ConditionalOnProperty(name = "serva.file.type", havingValue = "defaultFile", matchIfMissing = true)
 public class ServaDefaultFile implements ServaFile {
 
