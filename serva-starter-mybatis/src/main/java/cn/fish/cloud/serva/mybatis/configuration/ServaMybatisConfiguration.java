@@ -1,7 +1,7 @@
 package cn.fish.cloud.serva.mybatis.configuration;
 
-import cn.fish.cloud.serva.mybatis.config.FishMybatisConfig;
-import cn.fish.cloud.serva.mybatis.interceptor.FishPaginationInnerInterceptor;
+import cn.fish.cloud.serva.mybatis.config.ServaMybatisConfig;
+import cn.fish.cloud.serva.mybatis.interceptor.ServaPaginationInnerInterceptor;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -12,15 +12,15 @@ import org.springframework.core.annotation.Order;
 
 
 /**
- * Mybatis与Mybatis plus配置
+ * Mybatis与Mybatis plus 分页配置
  */
 @Configuration
-public class FishMybatisConfiguration {
+public class ServaMybatisConfiguration {
 
-    private final FishMybatisConfig fishMybatisConfig;
+    private final ServaMybatisConfig servaMybatisConfig;
 
-    public FishMybatisConfiguration(FishMybatisConfig fishMybatisConfig) {
-        this.fishMybatisConfig = fishMybatisConfig;
+    public ServaMybatisConfiguration(ServaMybatisConfig servaMybatisConfig) {
+        this.servaMybatisConfig = servaMybatisConfig;
     }
 
     /**
@@ -31,12 +31,12 @@ public class FishMybatisConfiguration {
     @Order(1)
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         PaginationInnerInterceptor paginationInnerInterceptor = null;
-        String dbType = fishMybatisConfig.getDbType();
+        String dbType = servaMybatisConfig.getDbType();
         if (StrUtil.isNotBlank(dbType)) {
-            paginationInnerInterceptor = new FishPaginationInnerInterceptor(DbType.getDbType(dbType));
+            paginationInnerInterceptor = new ServaPaginationInnerInterceptor(DbType.getDbType(dbType));
         }
         else {
-            paginationInnerInterceptor = new FishPaginationInnerInterceptor();
+            paginationInnerInterceptor = new ServaPaginationInnerInterceptor();
         }
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(paginationInnerInterceptor);

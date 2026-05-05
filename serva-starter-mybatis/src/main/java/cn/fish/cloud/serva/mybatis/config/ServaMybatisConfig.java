@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "mybatis-plus.global-config.db-config")
-public class FishMybatisConfig {
+public class ServaMybatisConfig {
 
     String dbType;
 }

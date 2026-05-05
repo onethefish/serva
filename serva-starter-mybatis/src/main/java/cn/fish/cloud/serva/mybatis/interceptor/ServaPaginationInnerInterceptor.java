@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author onethefish
  */
-public class FishPaginationInnerInterceptor extends PaginationInnerInterceptor {
+public class ServaPaginationInnerInterceptor extends PaginationInnerInterceptor {
 
     private static final String OCEANBASE = ":oceanbase:";
     private static final String OCEANBASE_MODE = "mode=oracle";
@@ -37,11 +37,11 @@ public class FishPaginationInnerInterceptor extends PaginationInnerInterceptor {
                                                                      .expireAfterAccess(30, TimeUnit.SECONDS)
                                                                      .build();
 
-    public FishPaginationInnerInterceptor() {
+    public ServaPaginationInnerInterceptor() {
 
     }
 
-    public FishPaginationInnerInterceptor(DbType dbType) {
+    public ServaPaginationInnerInterceptor(DbType dbType) {
         super(dbType);
     }
 
