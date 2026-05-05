@@ -12,6 +12,7 @@
     <modules>
         <module>serva-dependencies</module>
         <module>serva-common</module>
+        <module>serva-starter-file</module>
         <module>serva-starter-mybatis</module>
         <module>serva-starter-web</module>
     </modules>

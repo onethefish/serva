@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
         if (Level.ERROR.equals(level)) {
             log.error("traceId:{},url:{}; common exception:{}", traceId, request.getRequestURI(), ex.getMessage(), ex);
         }
-        return ResponseResult.error(ex.getCode() + ":" + ex.getMessage());
+        return ResponseResult.error(ex.getMessage());
     }
 
 
