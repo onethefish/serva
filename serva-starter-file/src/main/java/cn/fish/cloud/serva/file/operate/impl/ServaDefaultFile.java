@@ -19,9 +19,9 @@ public class ServaDefaultFile implements ServaFile {
 
     private final ServaFileConfig servaFileConfig;
 
-    public ServaDefaultFile(ServaFileConfig msdpFileProperties) {
-        this.servaFileConfig = msdpFileProperties;
-        log.info(msdpFileProperties.toString());
+    public ServaDefaultFile(ServaFileConfig servaFileConfig) {
+        this.servaFileConfig = servaFileConfig;
+        log.info(servaFileConfig.toString());
     }
 
 
