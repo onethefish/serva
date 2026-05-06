@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 @Slf4j
-@Component("msdpDefaultFile")
+@Component("servaDefaultFile")
 @ConditionalOnProperty(name = "serva.file.type", havingValue = "defaultFile", matchIfMissing = true)
 public class ServaDefaultFile implements ServaFile {
 

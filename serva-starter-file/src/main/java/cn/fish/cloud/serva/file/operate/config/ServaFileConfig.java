@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Primary;
 
 @Data
 @ToString
-@Primary
 @Configuration
 @ConfigurationProperties(prefix = "serva.file")
 public class ServaFileConfig {
