@@ -1,11 +1,12 @@
 package cn.fish.cloud.serva.web.controller;
 
 import cn.hutool.core.map.MapUtil;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -27,6 +28,8 @@ public class RequestUtil {
 
     public static final String PAGE_NUM = "currentPage";
     public static final String PAGE_SIZE = "pageSize";
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private RequestUtil() {
     }
@@ -84,19 +87,23 @@ public class RequestUtil {
         if (null == obj) {
             return new ArrayList<>();
         }
-        if (obj instanceof JSONArray jsonArray) {
-            return jsonArray.toJavaList(clazz);
-        }
-        if (obj instanceof JSONObject jsonObject) {
-            T javaObject = jsonObject.toJavaObject(clazz);
-            return List.of(javaObject);
-        }
-        if (obj instanceof List<?> list) {
-            JSONArray jsonArray = new JSONArray(list);
-            return jsonArray.toJavaList(clazz);
-        }
-        if (clazz.isInstance(obj)) {
-            return (List<T>) List.of(obj);
+        try {
+            if (obj instanceof List<?> list) {
+                JsonNode jsonNode = OBJECT_MAPPER.valueToTree(list);
+                if (jsonNode.isArray()) {
+                    return OBJECT_MAPPER.convertValue(jsonNode, new TypeReference<List<T>>() {});
+                }
+            }
+            if (obj instanceof Map<?, ?> map) {
+                JsonNode jsonNode = OBJECT_MAPPER.valueToTree(map);
+                T javaObject = OBJECT_MAPPER.treeToValue(jsonNode, clazz);
+                return List.of(javaObject);
+            }
+            if (clazz.isInstance(obj)) {
+                return List.of(clazz.cast(obj));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert object to List", e);
         }
         return null;
     }
@@ -115,14 +122,18 @@ public class RequestUtil {
         if (null == obj) {
             return null;
         }
-        if (obj instanceof JSONObject jsonObject) {
-            return jsonObject.toJavaObject(clazz);
+        try {
+            if (obj instanceof Map<?, ?> map) {
+                JsonNode jsonNode = OBJECT_MAPPER.valueToTree(map);
+                return OBJECT_MAPPER.treeToValue(jsonNode, clazz);
+            }
+            if (clazz.isInstance(obj)) {
+                return clazz.cast(obj);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert object", e);
         }
-        if (obj instanceof Map<?, ?> map) {
-            JSONObject jsonObject = new JSONObject(map);
-            return jsonObject.toJavaObject(clazz);
-        }
-        return (T) obj;
+        return null;
     }
 
     /**
@@ -136,13 +147,11 @@ public class RequestUtil {
         if (null == param) {
             return null;
         }
-        if (param instanceof JSONObject) {
-            JSONObject jsonObject = (JSONObject) param;
-            return jsonObject.toJavaObject(clazz);
-        }
-        else {
-            JSONObject jsonObject = new JSONObject(param);
-            return jsonObject.toJavaObject(clazz);
+        try {
+            JsonNode jsonNode = OBJECT_MAPPER.valueToTree(param);
+            return OBJECT_MAPPER.treeToValue(jsonNode, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert object", e);
         }
     }
 
