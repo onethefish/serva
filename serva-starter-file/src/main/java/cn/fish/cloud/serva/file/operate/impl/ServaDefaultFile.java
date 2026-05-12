@@ -81,10 +81,7 @@ public class ServaDefaultFile implements ServaFile {
             if (e instanceof IOException ie) {
                 throw ie;
             }
-            if (e instanceof RuntimeException re) {
-                throw re;
-            }
-            throw new IOException(e);
+            throw (RuntimeException) e;
         }
     }
 
