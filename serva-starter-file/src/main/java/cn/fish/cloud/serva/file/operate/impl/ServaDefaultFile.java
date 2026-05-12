@@ -138,13 +138,12 @@ public class ServaDefaultFile implements ServaFile {
     }
 
     @Override
-    public String getFilePath(String fileId) {
-        return getResourcesPath().concat(File.separator).concat(fileId);
-    }
-
-    @Override
     public Resource getFileResource(String fileId) {
         return new FileSystemResource(getFile(fileId));
+    }
+
+    private String getFilePath(String fileId) {
+        return getResourcesPath().concat(File.separator).concat(fileId);
     }
 
     private String getResourcesPath() {

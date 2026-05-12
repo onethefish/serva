@@ -108,13 +108,6 @@ public interface ServaFile {
      */
     boolean exists(String fileId);
 
-    /**
-     * 获得文件存放路径
-     *
-     * @param fileId 文件id
-     * @return 路径
-     */
-    String getFilePath(String fileId);
 
     /**
      * 获得文件Resource
