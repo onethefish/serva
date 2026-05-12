@@ -5,8 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -27,6 +30,37 @@ public class ResponseDownloadUtil {
 
     }
 
+    /**
+     * Spring MVC 附件下载：{@code Content-Disposition} 使用 {@code filename} + RFC 5987 {@code filename*}，
+     * 与 {@link MediaType} 一并写入 {@link ResponseEntity}，便于统一异常处理与流式响应。
+     *
+     * @param inputStream 响应体字节流（勿为 null）
+     * @param filename    下载展示文件名（勿为空）
+     * @param mediaType     内容类型；null 时视为 {@link MediaType#APPLICATION_OCTET_STREAM}
+     */
+    public static ResponseEntity<Resource> download(InputStream inputStream, String filename, MediaType mediaType) {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("Argument inputStream can not be null");
+        }
+        if (StrUtil.isEmpty(filename)) {
+            throw new IllegalArgumentException("Argument filename can not be null");
+        }
+        MediaType type = mediaType != null ? mediaType : MediaType.APPLICATION_OCTET_STREAM;
+        InputStreamResource resource = new InputStreamResource(inputStream);
+        return ResponseEntity.ok()
+                             .header(HttpHeaders.CONTENT_DISPOSITION, attachmentContentDisposition(filename))
+                             .contentType(type)
+                             .body(resource);
+    }
+
+    /**
+     * {@code attachment; filename="..."; filename*=UTF-8''...}
+     */
+    public static String attachmentContentDisposition(String filename) {
+        String asciiName = filename.replace("\"", "'");
+        return "attachment; filename=\"" + asciiName + "\"; filename*=UTF-8''"
+                + URLEncoder.encode(filename, StandardCharsets.UTF_8).replace("+", "%20");
+    }
 
     /**
      * @param response {@link HttpServletResponse}
