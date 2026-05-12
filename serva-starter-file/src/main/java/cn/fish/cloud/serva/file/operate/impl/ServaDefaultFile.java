@@ -1,6 +1,7 @@
 package cn.fish.cloud.serva.file.operate.impl;
 
 import cn.fish.cloud.serva.file.operate.ServaFile;
+import cn.fish.cloud.serva.file.operate.StreamingFileWriter;
 import cn.fish.cloud.serva.file.operate.config.ServaFileConfig;
 import cn.hutool.core.lang.id.NanoId;
 import lombok.NonNull;
@@ -50,6 +51,41 @@ public class ServaDefaultFile implements ServaFile {
             log.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public String allocateFileId() {
+        return getFileId();
+    }
+
+    @Override
+    public OutputStream openWriteStream(String fileId) throws IOException {
+        File dest = new File(getFilePath(fileId));
+        cn.hutool.core.io.FileUtil.mkParentDirs(dest);
+        return new FileOutputStream(dest, false);
+    }
+
+    @Override
+    public String uploadDirect(StreamingFileWriter writer) throws IOException {
+        String fileId = allocateFileId();
+        try (OutputStream out = openWriteStream(fileId)) {
+            writer.writeTo(out);
+            out.flush();
+            return fileId;
+        } catch (Exception e) {
+            try {
+                delete(fileId);
+            } catch (Exception cleanup) {
+                log.debug("cleanup partial upload failed, fileId={}", fileId, cleanup);
+            }
+            if (e instanceof IOException ie) {
+                throw ie;
+            }
+            if (e instanceof RuntimeException re) {
+                throw re;
+            }
+            throw new IOException(e);
+        }
     }
 
     @Override
@@ -114,8 +150,7 @@ public class ServaDefaultFile implements ServaFile {
         return new FileSystemResource(getFile(fileId));
     }
 
-    @Override
-    public String getResourcesPath() {
+    private String getResourcesPath() {
         return servaFileConfig.getResourcesPath();
     }
 

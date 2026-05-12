@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public interface ServaFile {
 
@@ -49,6 +50,24 @@ public interface ServaFile {
      * @return 文件id
      */
     String upload(File file);
+
+    /**
+     * 分配新的存储对象 id（尚未落盘，直至通过 {@link #openWriteStream} 写入并关闭流）。
+     * <p>方案 1 的第一步：与 {@link #openWriteStream(String)} 组合，直接向最终位置写入，避免先写临时文件再 copy。</p>
+     */
+    String allocateFileId();
+
+    /**
+     * 打开指向该 id 最终存储位置的输出流；调用方顺序写入后须关闭流。
+     * <p>若写入失败或放弃上传，应调用 {@link #delete(String...)} 清理可能存在的半截文件。</p>
+     */
+    OutputStream openWriteStream(String fileId) throws IOException;
+
+    /**
+     * 在最终存储位置上完成一次流式写入并返回 fileId（内部等价于分配 id、打开流、回调写入、关闭）。
+     * <p>方案 2：若回调抛出异常，实现应尽力删除未完成的文件。</p>
+     */
+    String uploadDirect(StreamingFileWriter writer) throws IOException;
 
     /**
      * 文件流覆盖
@@ -104,7 +123,5 @@ public interface ServaFile {
      * @return Spring Resource
      */
     Resource getFileResource(String fileId);
-
-    String getResourcesPath();
 
 }
